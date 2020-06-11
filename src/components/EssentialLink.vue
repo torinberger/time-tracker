@@ -24,13 +24,13 @@
 import { Vue, Component, Prop } from 'vue-property-decorator';
 
 @Component
-export default class ClassComponent extends Vue {
-  @Prop({ type: String, required: true }) readonly title!: string;
-
-  @Prop({ type: String, default: '' }) readonly caption!: string;
-
-  @Prop({ type: String, required: '#' }) readonly link!: string;
-
-  @Prop({ type: String, default: '' }) readonly icon!: string;
-};
+export default Vue.extend({
+  name: 'EssentialLink',
+  props: {
+    title: { type: String, required: true },
+    caption: { type: String, default: '' },
+    link: { type: String, default: '#' },
+    icon: { type: String, default: '' },
+  }
+});
 </script>
