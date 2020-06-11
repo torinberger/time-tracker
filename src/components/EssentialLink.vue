@@ -2,7 +2,6 @@
   <q-item
     clickable
     tag="a"
-    target="_blank"
     :href="link"
   >
     <q-item-section
@@ -21,29 +20,17 @@
   </q-item>
 </template>
 
-<script>
-export default {
-  name: 'EssentialLink',
-  props: {
-    title: {
-      type: String,
-      required: true,
-    },
+<script lang="ts">
+import { Vue, Component, Prop } from 'vue-property-decorator';
 
-    caption: {
-      type: String,
-      default: '',
-    },
+@Component
+export default class ClassComponent extends Vue {
+  @Prop({ type: String, required: true }) readonly title!: string;
 
-    link: {
-      type: String,
-      default: '#',
-    },
+  @Prop({ type: String, default: '' }) readonly caption!: string;
 
-    icon: {
-      type: String,
-      default: '',
-    },
-  },
+  @Prop({ type: String, required: '#' }) readonly link!: string;
+
+  @Prop({ type: String, default: '' }) readonly icon!: string;
 };
 </script>
