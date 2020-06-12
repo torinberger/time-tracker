@@ -21,9 +21,8 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+import { Vue } from 'vue-property-decorator';
 
-@Component
 export default Vue.extend({
   name: 'EssentialLink',
   props: {
@@ -31,6 +30,6 @@ export default Vue.extend({
     caption: { type: String, default: '' },
     link: { type: String, default: '#' },
     icon: { type: String, default: '' },
-  }
+  },
 });
 </script>

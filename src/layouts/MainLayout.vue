@@ -12,10 +12,10 @@
         />
 
         <q-toolbar-title>
-          Quasar App
+          Time Tracker
         </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
+        <div>v0.1.0</div>
       </q-toolbar>
     </q-header>
 
@@ -27,12 +27,22 @@
       content-class="bg-grey-1"
     >
       <q-list>
+        <q-btn
+          flat
+          dense
+          round
+          icon="clear"
+          aria-label="exit"
+          style="float: left; margin: 0.7vh;"
+          @click="leftDrawerOpen = !leftDrawerOpen"
+        />
         <q-item-label
           header
           class="text-grey-8"
         >
           Essential Links
         </q-item-label>
+
         <EssentialLink
           v-for="link in essentialLinks"
           :key="link.title"
@@ -48,7 +58,8 @@
 </template>
 
 <script lang="ts">
-import EssentialLink from 'components/EssentialLink';
+import { Vue } from 'vue-property-decorator';
+import EssentialLink from 'components/EssentialLink.vue';
 
 export default Vue.extend({
   name: 'MainLayout',
@@ -65,7 +76,7 @@ export default Vue.extend({
           title: 'Home',
           caption: 'Homepage',
           icon: 'house',
-          link: '/#/'
+          link: '/#/',
         },
         {
           title: 'Auth',
