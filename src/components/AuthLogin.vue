@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="auth-login">
     <q-form
-      @submit="register"
+      @submit="login"
     >
       <q-input
         type="text"
@@ -17,7 +17,7 @@
         id="submit-btn"
         type="submit"
         label="Login"
-        color="secondary"
+        color="primary"
       />
     </q-form>
   </div>
@@ -34,14 +34,16 @@ export default Vue.extend({
       password: '',
     };
   },
+  methods: {
+    login() {
+      console.log("login");
+    }
+  }
 });
 </script>
 
-<style lang="css" scoped>
-
-#submit-btn {
+<style lang="sass" scoped>
+#submit-btn
   width: 100%;
   margin-top: 2vh;
-}
-
 </style>

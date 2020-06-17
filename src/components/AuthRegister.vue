@@ -5,13 +5,11 @@
     >
       <q-input
         type="text"
-        active-color="secondary"
         v-model="username"
         label="Username"
       />
       <q-input
         type="password"
-        active-color="secondary"
         v-model="password"
         label="Password"
       />
@@ -38,18 +36,14 @@ export default Vue.extend({
   },
   methods: {
     register() {
-      console.log('Register');
-
-    }
-  }
+      console.log('register');
+    },
+  },
 });
 </script>
 
-<style lang="scss" scoped>
-
-#submit-btn {
+<style lang="sass" scoped>
+#submit-btn
   width: 100%;
   margin-top: 2vh;
-}
-
 </style>
