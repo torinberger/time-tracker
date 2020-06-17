@@ -1,12 +1,12 @@
 <template>
   <q-page class="auth">
-    <q-card>
+    <q-card class="auth-container">
       <q-tabs
         v-model="mode"
         dense
         class="text-grey"
-        active-color="primary"
-        indicator-color="primary"
+        active-color="secondary"
+        indicator-color="seconday"
         align="justify"
         narrow-indicator
       >
@@ -47,3 +47,17 @@ export default Vue.extend({
   },
 });
 </script>
+
+<style lang="scss" scoped>
+.auth {
+  width: 100vw;
+  height: calc(100vh - 50px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.auth-container {
+  height: auto;
+  width: 30vw;
+}
+</style>

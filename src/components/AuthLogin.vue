@@ -1,15 +1,25 @@
 <template lang="html">
   <div class="auth-login">
-    <q-input
-      type="text"
-      v-model="username"
-      label="Username"
-    />
-    <q-input
-      type="password"
-      v-model="password"
-      label="Password"
-    />
+    <q-form
+      @submit="register"
+    >
+      <q-input
+        type="text"
+        v-model="username"
+        label="Username"
+      />
+      <q-input
+        type="password"
+        v-model="password"
+        label="Password"
+      />
+      <q-btn
+        id="submit-btn"
+        type="submit"
+        label="Login"
+        color="secondary"
+      />
+    </q-form>
   </div>
 </template>
 
@@ -28,4 +38,10 @@ export default Vue.extend({
 </script>
 
 <style lang="css" scoped>
+
+#submit-btn {
+  width: 100%;
+  margin-top: 2vh;
+}
+
 </style>
