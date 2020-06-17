@@ -3,6 +3,7 @@
     clickable
     tag="a"
     :href="link"
+    :active="link == currentRoute"
   >
     <q-item-section
       v-if="icon"
@@ -14,7 +15,7 @@
     <q-item-section>
       <q-item-label>{{ title }}</q-item-label>
       <q-item-label caption>
-        {{ caption }}
+        {{ caption }} {{ currentRoute }}
       </q-item-label>
     </q-item-section>
   </q-item>
@@ -31,5 +32,15 @@ export default Vue.extend({
     link: { type: String, default: '#' },
     icon: { type: String, default: '' },
   },
+  data() {
+    return {
+      currentRoute: '/#' + this.$router.currentRoute.path,
+    };
+  },
+  watch: {
+    $route(to, from) {
+      this.currentRoute = '/#' + this.$router.currentRoute.path;
+    }
+  }
 });
 </script>

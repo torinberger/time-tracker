@@ -58,6 +58,6 @@ export default Vue.extend({
 }
 .auth-container {
   height: auto;
-  width: 30vw;
+  width: 400px;
 }
 </style>
