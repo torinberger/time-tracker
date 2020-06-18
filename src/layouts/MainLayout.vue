@@ -84,6 +84,20 @@ export default Vue.extend({
           icon: 'lock',
           link: '/#/auth',
         },
+        {
+          title: 'Timer',
+          caption: 'Log Time & See History',
+          icon: 'timer',
+          link: '/#/timer',
+          authNeeded: true,
+        },
+        {
+          title: 'Stats',
+          caption: 'Summary & Statistics',
+          icon: 'bar_chart',
+          link: '/#/stats',
+          authNeeded: true,
+        },
       ],
     };
   },

@@ -7,6 +7,8 @@ const routes: RouteConfig[] = [
     children: [
       { path: '', component: () => import('pages/Index.vue') },
       { path: 'auth', component: () => import('pages/Auth.vue') },
+      { path: 'timer', component: () => import('pages/Timer.vue') },
+      { path: 'stats', component: () => import('pages/Stats.vue') },
     ],
   },
 ];

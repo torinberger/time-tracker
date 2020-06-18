@@ -2,7 +2,8 @@
   <q-item
     clickable
     tag="a"
-    :href="link"
+    :disabled="authNeeded && !$store.state.token"
+    :href="authNeeded && !$store.state.token ? '#' : link"
     :active="link == currentRoute"
   >
     <q-item-section
@@ -15,7 +16,7 @@
     <q-item-section>
       <q-item-label>{{ title }}</q-item-label>
       <q-item-label caption>
-        {{ caption }} {{ currentRoute }}
+        {{ caption }}
       </q-item-label>
     </q-item-section>
   </q-item>
@@ -31,16 +32,17 @@ export default Vue.extend({
     caption: { type: String, default: '' },
     link: { type: String, default: '#' },
     icon: { type: String, default: '' },
+    authNeeded: { type: Boolean, default: false },
   },
   data() {
     return {
-      currentRoute: '/#' + this.$router.currentRoute.path,
+      currentRoute: `/#${this.$router.currentRoute.path}`,
     };
   },
   watch: {
-    $route(to, from) {
-      this.currentRoute = '/#' + this.$router.currentRoute.path;
-    }
-  }
+    $route() {
+      this.currentRoute = `/#${this.$router.currentRoute.path}`;
+    },
+  },
 });
 </script>

@@ -36,9 +36,11 @@ export default Vue.extend({
   },
   methods: {
     login() {
-      console.log("login");
-    }
-  }
+      console.log('login');
+      this.$store.commit('setToken', 'blah');
+      this.$router.push({ path: 'timer' });
+    },
+  },
 });
 </script>
 

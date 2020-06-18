@@ -13,7 +13,7 @@ export interface StoreInterface {
   // Define your own store structure, using submodules if needed
   // example: ExampleStateInterface;
   // Declared as unknown to avoid linting issue. Best to strongly type as per the line above.
-  example: unknown;
+  token: string;
 }
 
 export default store(({ Vue }) => {
@@ -22,6 +22,11 @@ export default store(({ Vue }) => {
   const Store = new Vuex.Store<StoreInterface>({
     modules: {
       // example
+    },
+    mutations: {
+      setToken(state, newToken) {
+        state.token = newToken;
+      },
     },
 
     // enable strict mode (adds overhead!)

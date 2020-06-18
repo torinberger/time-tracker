@@ -50,8 +50,6 @@ export default Vue.extend({
 
 <style lang="scss" scoped>
 .auth {
-  width: 100vw;
-  height: calc(100vh - 50px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -59,5 +57,6 @@ export default Vue.extend({
 .auth-container {
   height: auto;
   width: 400px;
+  margin: 5vh;
 }
 </style>
