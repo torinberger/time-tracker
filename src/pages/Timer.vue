@@ -3,10 +3,10 @@
     <div class="timer-controller shadow-2">
       <q-btn
         id="timer-controller-btn"
-        :icon="mode === 'play' ? 'play_arrow' : 'pause'"
-        @click="mode === 'play' ? playTimer() : pauseTimer()"
+        :icon="mode === 'play' ? 'stop' : 'play_arrow'"
+        @click="mode === 'play' ? pauseTimer() : playTimer()"
         color="primary"
-      />{{ timer }} {{ cleanTime }}
+      />{{ cleanTime }}
     </div>
 
     <div class="timer-history shadow-2">
@@ -18,55 +18,71 @@
 <script lang="ts">
 import Vue from 'vue';
 
+function makeTwoDigit(n: number): string {
+  return String(String(n).length < 2 ? `0${n}` : n);
+}
+
 export default Vue.extend({
   name: 'Timer',
   data() {
     return {
-      mode: 'play',
+      mode: 'stopped',
       timer: 0,
+      history: [
+        {
+          project: 'Software',
+        },
+      ],
     };
   },
   created() {
     setInterval(() => {
-      this.timer += 1;
+      if (this.mode === 'play') {
+        this.timer += 1;
+      }
     }, 1000);
   },
   methods: {
     playTimer() {
-      this.mode = this.mode === 'play' ? this.mode = 'pause' : this.mode = 'play';
+      this.mode = this.mode === 'play' ? this.mode = 'stopped' : this.mode = 'play';
     },
     pauseTimer() {
-      this.mode = this.mode === 'play' ? this.mode = 'pause' : this.mode = 'play';
-    }
+      this.mode = this.mode === 'play' ? this.mode = 'stopped' : this.mode = 'play';
+      this.timer = 0;
+    },
   },
   computed: {
-    cleanTime() {
-      let hours = Math.floor(Math.floor(this.timer / 60) / 60);
-      let minutes = Math.floor((this.timer / 60) % 60);
-      let seconds = this.timer % 60;
-      return `${hours}:${minutes}:${seconds}`
+    cleanTime(): string {
+      const hours = Math.floor(Math.floor(this.timer / 60) / 60);
+      const minutes = Math.floor((this.timer / 60) % 60);
+      const seconds = Number(this.timer % 60);
+
+      return `${makeTwoDigit(hours)}:${makeTwoDigit(minutes)}:${makeTwoDigit(seconds)}`;
     },
   },
 });
 </script>
 
 <style lang="sass" scoped>
+body, .q-page
+  overflow-y: hidden;
+
 .timer-controller
-  width: calc(100vw - 4vh);
-  height: 12vh;
+  width: calc(100% - 4vh);
+  height: 10vh;
   border-radius: 3px;
   margin: 2vh;
   background: white;
 
 #timer-controller-btn
   border-radius: 50%;
-  height: 8vh;
-  width: 8vh;
+  height: 6vh;
+  width: 6vh;
   margin: 2vh;
 
 .timer-history
-  width: calc(100vw - 4vh);
-  height: calc(calc(98vh - 50px) - 16vh);
+  width: calc(100% - 4vh);
+  height: calc(calc(100vh - 50px) - 16vh);
   border-radius: 3px;
   margin: 2vh;
   background: white;

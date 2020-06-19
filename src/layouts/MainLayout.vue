@@ -1,15 +1,7 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout view="hHh Lpr lFf">
     <q-header elevated>
       <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="leftDrawerOpen = !leftDrawerOpen"
-        />
 
         <q-toolbar-title>
           Time Tracker
@@ -23,19 +15,11 @@
       v-model="leftDrawerOpen"
       show-if-above
       bordered
-      overlay
+      elevated
+      class="shadow-2"
       content-class="bg-grey-1"
     >
       <q-list>
-        <q-btn
-          flat
-          dense
-          round
-          icon="clear"
-          aria-label="exit"
-          style="float: left; margin: 0.7vh;"
-          @click="leftDrawerOpen = !leftDrawerOpen"
-        />
         <q-item-label
           header
           class="text-grey-8"
@@ -70,7 +54,7 @@ export default Vue.extend({
 
   data() {
     return {
-      leftDrawerOpen: false,
+      leftDrawerOpen: true,
       essentialLinks: [
         {
           title: 'Home',
