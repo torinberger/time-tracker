@@ -9,8 +9,14 @@
       />{{ cleanTime }}
     </div>
 
-    <div class="timer-history shadow-2">
+    <div class="row">
+      <div class="timer-history col-6 shadow-2">
 
+      </div>
+
+      <div class="timer-projects col-6 shadow-2">
+
+      </div>
     </div>
   </q-page>
 </template>
@@ -80,10 +86,19 @@ body, .q-page
   width: 6vh;
   margin: 2vh;
 
-.timer-history
-  width: calc(100% - 4vh);
+.timer-history, .timer-projects
+  width: calc(50% - 3vh);
   height: calc(calc(100vh - 50px) - 16vh);
   border-radius: 3px;
   margin: 2vh;
+  margin-right: 0;
+  margin-top: 0;
   background: white;
+
+@media only screen and (max-width: 600px)
+  .timer-history, .timer-projects
+    width: calc(100% - 4vh);
+
+  body, .q-page
+    overflow-y: scroll;
 </style>
