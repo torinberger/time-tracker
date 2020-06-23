@@ -8,12 +8,25 @@
         color="primary"
       />
 
-      <p id="timer-controller-text">{{ cleanTime }}</p>
+      <p id="timer-controller-text">{{ cleanTimer }}</p>
     </div>
 
     <div class="row">
       <div class="timer-history col-6 shadow-2">
+        <q-list>
+          <q-item-label
+            header
+            class="text-grey-8"
+          >
+            History
+          </q-item-label>
 
+          <timer-history-item
+            v-for="item in history"
+            :key="item._id"
+            v-bind="item"
+          />
+        </q-list>
       </div>
 
       <div class="timer-projects col-6 shadow-2">
@@ -25,13 +38,25 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import TimerHistoryItem from 'components/TimerHistoryItem.vue';
 
 function makeTwoDigit(n: number): string {
   return String(String(n).length < 2 ? `0${n}` : n);
 }
 
+function cleanTime(time: number): string {
+  const hours = Math.floor(Math.floor(time / 60) / 60);
+  const minutes = Math.floor((time / 60) % 60);
+  const seconds = Number(time % 60);
+
+  return `${makeTwoDigit(hours)}:${makeTwoDigit(minutes)}:${makeTwoDigit(seconds)}`;
+}
+
 export default Vue.extend({
   name: 'Timer',
+  components: {
+    TimerHistoryItem,
+  },
   data() {
     return {
       mode: 'stopped',
@@ -39,6 +64,15 @@ export default Vue.extend({
       history: [
         {
           project: 'Software',
+          start: 34583459,
+          end: 34583700,
+          _id: '32495df8dfj498',
+        },
+        {
+          project: 'Software',
+          start: 34583459,
+          end: 34583750,
+          _id: '32495df8dfj498',
         },
       ],
     };
@@ -60,12 +94,8 @@ export default Vue.extend({
     },
   },
   computed: {
-    cleanTime(): string {
-      const hours = Math.floor(Math.floor(this.timer / 60) / 60);
-      const minutes = Math.floor((this.timer / 60) % 60);
-      const seconds = Number(this.timer % 60);
-
-      return `${makeTwoDigit(hours)}:${makeTwoDigit(minutes)}:${makeTwoDigit(seconds)}`;
+    cleanTimer(): string {
+      return cleanTime(this.timer);
     },
   },
 });
