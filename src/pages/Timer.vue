@@ -6,7 +6,9 @@
         :icon="mode === 'play' ? 'stop' : 'play_arrow'"
         @click="mode === 'play' ? pauseTimer() : playTimer()"
         color="primary"
-      />{{ cleanTime }}
+      />
+
+      <p id="timer-controller-text">{{ cleanTime }}</p>
     </div>
 
     <div class="row">
@@ -69,24 +71,35 @@ export default Vue.extend({
 });
 </script>
 
-<style lang="sass" scoped>
-body, .q-page
+<style lang="scss" scoped>
+body, .q-page {
   overflow-y: hidden;
+}
 
-.timer-controller
+.timer-controller {
   width: calc(100% - 4vh);
   height: 10vh;
   border-radius: 3px;
   margin: 2vh;
   background: white;
+}
 
-#timer-controller-btn
+#timer-controller-btn {
+  display: inline-block;
   border-radius: 50%;
   height: 6vh;
   width: 6vh;
   margin: 2vh;
+}
 
-.timer-history, .timer-projects
+#timer-controller-text {
+  display: inline-block;
+  font-size: 3vh;
+  line-height: 10vh;
+  vertical-align: top;
+}
+
+.timer-history, .timer-projects {
   width: calc(50% - 3vh);
   height: calc(calc(100vh - 50px) - 16vh);
   border-radius: 3px;
@@ -94,11 +107,15 @@ body, .q-page
   margin-right: 0;
   margin-top: 0;
   background: white;
+}
 
-@media only screen and (max-width: 600px)
-  .timer-history, .timer-projects
+@media only screen and (max-width: 600px) {
+  .timer-history, .timer-projects {
     width: calc(100% - 4vh);
+  }
 
-  body, .q-page
+  body, .q-page {
     overflow-y: scroll;
+  }
+}
 </style>

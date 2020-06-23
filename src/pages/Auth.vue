@@ -54,6 +54,7 @@ export default Vue.extend({
   justify-content: center;
   align-items: center;
 }
+
 .auth-container {
   height: auto;
   width: 400px;

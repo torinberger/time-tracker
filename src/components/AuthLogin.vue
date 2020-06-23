@@ -44,8 +44,9 @@ export default Vue.extend({
 });
 </script>
 
-<style lang="sass" scoped>
-#submit-btn
+<style lang="scss" scoped>
+#submit-btn {
   width: 100%;
   margin-top: 2vh;
+}
 </style>
