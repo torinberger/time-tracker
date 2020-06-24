@@ -2,6 +2,7 @@
   <q-layout view="hHh Lpr lFf">
     <q-header elevated>
       <q-toolbar>
+        <q-btn v-if="$q.platform.is.mobile" flat @click="leftDrawerOpen = !leftDrawerOpen" round dense icon="menu" />
 
         <q-toolbar-title>
           Time Tracker
