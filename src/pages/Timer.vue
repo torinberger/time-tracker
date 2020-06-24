@@ -200,7 +200,7 @@ body, .q-page {
   background: white;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 800px) {
   .timer-history, .timer-projects {
     width: calc(100% - 4vh);
   }

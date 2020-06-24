@@ -2,7 +2,7 @@
   <q-layout view="hHh Lpr lFf">
     <q-header elevated>
       <q-toolbar>
-        <q-btn v-if="$q.platform.is.mobile" flat @click="leftDrawerOpen = !leftDrawerOpen" round dense icon="menu" />
+        <q-btn id="menu-btn" flat @click="leftDrawerOpen = !leftDrawerOpen" round dense icon="menu" />
 
         <q-toolbar-title>
           Time Tracker
@@ -88,3 +88,16 @@ export default Vue.extend({
   },
 });
 </script>
+
+<style lang="scss">
+@media only screen and (min-width: 1000px) {
+  #menu-btn {
+    display: none;
+    padding: 0;
+    margin: 0;
+  }
+  .q-toolbar__title {
+    padding-left: 0;
+  }
+}
+</style>
