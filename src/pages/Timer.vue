@@ -9,6 +9,13 @@
       />
 
       <p id="timer-controller-text">{{ cleanTimer }}</p>
+
+      <q-select
+        align="right"
+        label="Project"
+        type="select"
+        :options="['chess', 'software']"
+      />
     </div>
 
     <div class="row">
@@ -63,16 +70,18 @@ export default Vue.extend({
       timer: 0,
       history: [
         {
+          description: 'Working on game',
           project: 'Software',
           start: 34583459,
           end: 34583700,
           _id: '32495df8dfj498',
         },
         {
+          description: 'Bug fixing',
           project: 'Software',
           start: 34583459,
           end: 34583750,
-          _id: '32495df8dfj498',
+          _id: '32495df8dfk498',
         },
       ],
     };
@@ -112,21 +121,25 @@ body, .q-page {
   border-radius: 3px;
   margin: 2vh;
   background: white;
-}
 
-#timer-controller-btn {
-  display: inline-block;
-  border-radius: 50%;
-  height: 6vh;
-  width: 6vh;
-  margin: 2vh;
-}
+  .q-btn {
+    display: inline-block;
+    border-radius: 50%;
+    height: 6vh;
+    width: 6vh;
+    margin: 2vh;
+  }
 
-#timer-controller-text {
-  display: inline-block;
-  font-size: 3vh;
-  line-height: 10vh;
-  vertical-align: top;
+  p {
+    display: inline-block;
+    font-size: 3vh;
+    line-height: 10vh;
+    vertical-align: top;
+  }
+
+  .q-select {
+    display: inline-block;
+  }
 }
 
 .timer-history, .timer-projects {

@@ -1,17 +1,18 @@
 <template lang="html">
-  <div class="timer-history-item">
-    <q-item>
-      <q-item-section>
-        <q-item-label>{{ project }}</q-item-label>
-      </q-item-section>
+  <q-item class="timer-history-item">
+    <q-item-section>
+      <q-item-label>{{ description }}</q-item-label>
+      <q-item-label caption>
+        <q-icon name="folder" color="blue"/> {{ project }}
+      </q-item-label>
+    </q-item-section>
 
-      <q-item-section>
-        <q-item-label caption>
-          {{ cleanedTime }}
-        </q-item-label>
-      </q-item-section>
-    </q-item>
-  </div>
+    <q-item-section>
+      <q-item-label align="right">
+        {{ cleanedTime }}
+      </q-item-label>
+    </q-item-section>
+  </q-item>
 </template>
 
 <script lang="ts">
@@ -32,6 +33,7 @@ function cleanTime(time: number): string {
 export default Vue.extend({
   name: 'TimerHistoryItem',
   props: {
+    description: { type: String, required: true },
     project: { type: String, default: '' },
     start: { type: Number, required: true },
     end: { type: Number, required: true },
@@ -47,7 +49,7 @@ export default Vue.extend({
 <style lang="scss" scoped>
 .q-item {
   background: lightgrey;
-  border-radius: 5px;
+  border-radius: 2px;
   margin: 1vh;
   margin-top: 0px;
 }
