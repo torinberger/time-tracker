@@ -76,6 +76,7 @@ export default Vue.extend({
     return {
       mode: 'stopped',
       current: {
+        _id: '',
         timer: 0,
         description: '',
         project: '',
@@ -115,28 +116,15 @@ export default Vue.extend({
     pauseTimer() {
       this.mode = this.mode === 'play' ? this.mode = 'stopped' : this.mode = 'play';
       this.current.end = Math.ceil(new Date().getTime() / 1000);
-
       this.current._id = String(Math.random());
 
-      // console.log(
-      //   this.current.start,
-      //   this.current.end,
-      //   this.current._id,
-      //   this.current.description,
-      //   this.current.project);
       console.log(JSON.parse(JSON.stringify(this.current)));
-
-
       this.history.push(JSON.parse(JSON.stringify(this.current)));
-
-      // console.log(this.history[this.history.length-1]);
-
 
       this.current.description = '';
       this.current.project = '';
-
       this.current.start = 0;
-      this.current.time = 0;
+      this.current.timer = 0;
       this.current.end = 0;
     },
   },
@@ -159,10 +147,14 @@ body, .q-page {
   border-radius: 3px;
   margin: 2vh;
   background: white;
+  display: flex;
+  align-items: center;
 
   div {
+    margin-left: auto;
     float: right;
-    display: inline-block;
+    display: flex;
+    align-items: center;
 
     .q-btn {
       display: inline-block;
@@ -174,9 +166,8 @@ body, .q-page {
 
     p {
       display: inline-block;
-      font-size: 3vh;
-      line-height: 10vh;
-      vertical-align: top;
+      font-size: 2.5vh;
+      margin: 0;
     }
   }
 
