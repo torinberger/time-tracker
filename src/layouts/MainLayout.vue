@@ -2,7 +2,14 @@
   <q-layout view="hHh Lpr lFf">
     <q-header elevated>
       <q-toolbar>
-        <q-btn id="menu-btn" flat @click="leftDrawerOpen = !leftDrawerOpen" round dense icon="menu" />
+        <q-btn
+          id="menu-btn"
+          flat
+          @click="leftDrawerOpen = !leftDrawerOpen"
+          round
+          dense
+          icon="menu"
+        />
 
         <q-toolbar-title>
           Time Tracker
