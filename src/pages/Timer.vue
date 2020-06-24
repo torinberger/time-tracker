@@ -1,21 +1,29 @@
 <template lang="html">
   <q-page class="timer">
     <div class="timer-controller shadow-2">
-      <q-btn
-        id="timer-controller-btn"
-        :icon="mode === 'play' ? 'stop' : 'play_arrow'"
-        @click="mode === 'play' ? pauseTimer() : playTimer()"
-        color="primary"
+      <q-input
+        label="Description"
+        type="text"
+        v-model="current.description"
       />
-
-      <p id="timer-controller-text">{{ cleanTimer }}</p>
 
       <q-select
-        align="right"
         label="Project"
         type="select"
+        v-model="current.project"
         :options="['chess', 'software']"
       />
+
+      <div class="">
+        <p id="timer-controller-text">{{ cleanTimer }}</p>
+
+        <q-btn
+          id="timer-controller-btn"
+          :icon="mode === 'play' ? 'stop' : 'play_arrow'"
+          @click="mode === 'play' ? pauseTimer() : playTimer()"
+          color="primary"
+        />
+      </div>
     </div>
 
     <div class="row">
@@ -67,7 +75,13 @@ export default Vue.extend({
   data() {
     return {
       mode: 'stopped',
-      timer: 0,
+      current: {
+        timer: 0,
+        description: '',
+        project: '',
+        start: 0,
+        end: 0,
+      },
       history: [
         {
           description: 'Working on game',
@@ -89,22 +103,46 @@ export default Vue.extend({
   created() {
     setInterval(() => {
       if (this.mode === 'play') {
-        this.timer += 1;
+        this.current.timer += 1;
       }
     }, 1000);
   },
   methods: {
     playTimer() {
       this.mode = this.mode === 'play' ? this.mode = 'stopped' : this.mode = 'play';
+      this.current.start = Math.ceil(new Date().getTime() / 1000);
     },
     pauseTimer() {
       this.mode = this.mode === 'play' ? this.mode = 'stopped' : this.mode = 'play';
-      this.timer = 0;
+      this.current.end = Math.ceil(new Date().getTime() / 1000);
+
+      this.current._id = String(Math.random());
+
+      // console.log(
+      //   this.current.start,
+      //   this.current.end,
+      //   this.current._id,
+      //   this.current.description,
+      //   this.current.project);
+      console.log(JSON.parse(JSON.stringify(this.current)));
+
+
+      this.history.push(JSON.parse(JSON.stringify(this.current)));
+
+      // console.log(this.history[this.history.length-1]);
+
+
+      this.current.description = '';
+      this.current.project = '';
+
+      this.current.start = 0;
+      this.current.time = 0;
+      this.current.end = 0;
     },
   },
   computed: {
     cleanTimer(): string {
-      return cleanTime(this.timer);
+      return cleanTime(this.current.timer);
     },
   },
 });
@@ -122,24 +160,43 @@ body, .q-page {
   margin: 2vh;
   background: white;
 
-  .q-btn {
+  div {
+    float: right;
     display: inline-block;
-    border-radius: 50%;
-    height: 6vh;
-    width: 6vh;
-    margin: 2vh;
+
+    .q-btn {
+      display: inline-block;
+      border-radius: 50%;
+      height: 6vh;
+      width: 6vh;
+      margin: 2vh;
+    }
+
+    p {
+      display: inline-block;
+      font-size: 3vh;
+      line-height: 10vh;
+      vertical-align: top;
+    }
   }
 
-  p {
+  .q-input {
+    float: left;
+    margin-left: 2vh;
+    width: 400px;
     display: inline-block;
-    font-size: 3vh;
-    line-height: 10vh;
-    vertical-align: top;
   }
 
   .q-select {
+    margin-left: 2vh;
+    margin-right: 2vh;
+    width: 200px;
     display: inline-block;
   }
+}
+
+.q-page > .row {
+  width: 100%;
 }
 
 .timer-history, .timer-projects {
