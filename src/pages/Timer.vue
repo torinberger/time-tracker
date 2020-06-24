@@ -45,7 +45,20 @@
       </div>
 
       <div class="timer-projects col-6 shadow-2">
+        <q-list>
+          <q-item-label
+            header
+            class="text-grey-8"
+          >
+            Projects
+          </q-item-label>
 
+          <timer-project-item
+            v-for="item in projects"
+            :key="item._id"
+            v-bind="item"
+          />
+        </q-list>
       </div>
     </div>
   </q-page>
@@ -54,6 +67,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import TimerHistoryItem from 'components/TimerHistoryItem.vue';
+import TimerProjectItem from 'components/TimerProjectItem.vue';
 
 function makeTwoDigit(n: number): string {
   return String(String(n).length < 2 ? `0${n}` : n);
@@ -71,6 +85,7 @@ export default Vue.extend({
   name: 'Timer',
   components: {
     TimerHistoryItem,
+    TimerProjectItem,
   },
   data() {
     return {
@@ -97,6 +112,18 @@ export default Vue.extend({
           start: 34583459,
           end: 34583750,
           _id: '32495df8dfk498',
+        },
+      ],
+      projects: [
+        {
+          _id: '3490093490',
+          name: 'Software',
+          color: 'blue',
+        },
+        {
+          _id: '9034903490',
+          name: 'Chess',
+          color: 'red',
         },
       ],
     };
