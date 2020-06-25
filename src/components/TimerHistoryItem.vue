@@ -1,5 +1,5 @@
 <template lang="html">
-  <q-item class="timer-history-item">
+  <q-item dark class="timer-history-item">
     <q-item-section>
       <q-item-label>{{ description }}</q-item-label>
       <q-item-label caption>
@@ -8,9 +8,27 @@
     </q-item-section>
 
     <q-item-section>
-      <q-item-label align="right">
+      <q-item-label>
         {{ cleanedTime }}
       </q-item-label>
+      <q-item-label caption>
+        Tets
+      </q-item-label>
+    </q-item-section>
+
+    <q-item-section>
+      <q-btn align="right" round dense flat icon="more_vert">
+        <q-menu>
+          <q-list style="min-width: 100px">
+            <q-item clickable v-close-popup>
+              <q-item-section>Delete</q-item-section>
+            </q-item>
+            <q-item clickable v-close-popup>
+              <q-item-section>Edit</q-item-section>
+            </q-item>
+          </q-list>
+        </q-menu>
+      </q-btn>
     </q-item-section>
   </q-item>
 </template>
@@ -47,9 +65,9 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
-.q-item {
-  background: lightgrey;
+.timer-history-item {
   border-radius: 2px;
+  background: black;
   margin: 1vh;
   margin-top: 0px;
 }

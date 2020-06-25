@@ -1,12 +1,23 @@
 <template lang="html">
-  <q-item class="timer-history-item">
+  <q-item dark class="timer-history-item">
     <q-item-section>
       <q-item-label :style="{color: color}">{{ name }}</q-item-label>
     </q-item-section>
 
     <q-item-section>
       <q-item-label align="right">
-        <q-icon name="delete" />
+        <q-btn round dense flat icon="more_vert">
+          <q-menu>
+            <q-list style="min-width: 100px">
+              <q-item clickable v-close-popup>
+                <q-item-section>Delete</q-item-section>
+              </q-item>
+              <q-item clickable v-close-popup>
+                <q-item-section>Edit</q-item-section>
+              </q-item>
+            </q-list>
+          </q-menu>
+        </q-btn>
       </q-item-label>
     </q-item-section>
   </q-item>
@@ -25,8 +36,10 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
-.q-item {
+.timer-history-item {
   margin: 1vh;
+  background: black;
+  border-radius: 2px;
   margin-top: 0px;
 }
 </style>
