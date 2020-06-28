@@ -229,12 +229,13 @@ export default Vue.extend({
       }
     },
     addProject() {
-      let newProject = this.newProject;
-      newProject._id = String(Math.random());
-      this.projects.push(newProject);
-      this.newProject = {name: '', color: ''};
+      const { name } = this.newProject;
+      const { color } = this.newProject;
+      const id = String(Math.random());
+      this.projects.push({ name, color, _id: id });
+      this.newProject = { name: '', color: '' };
       this.prompt = false;
-    }
+    },
   },
   computed: {
     cleanTimer(): string {
