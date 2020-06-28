@@ -47,12 +47,19 @@
 
       <div class="timer-projects col-6 shadow-2">
         <q-list>
-          <q-item-label
-            header
+          <q-item
             class="text-grey-8"
           >
-            Projects
-          </q-item-label>
+            <q-item-section>
+              Projects
+            </q-item-section>
+
+            <q-item-section>
+              <q-item-label align="right">
+                <q-btn round dense flat icon="add" @click="prompt = true" />
+              </q-item-label>
+            </q-item-section>
+          </q-item>
 
           <timer-project-item
             v-for="item in projects"
@@ -63,6 +70,41 @@
         </q-list>
       </div>
     </div>
+
+    <q-dialog v-model="prompt" persistent>
+      <q-card style="min-width: 350px">
+        <q-form
+          @submit="addProject"
+        >
+          <q-card-section>
+            <div class="text-h6">New Project</div>
+          </q-card-section>
+
+          <q-card-section class="q-pt-none">
+            <q-input
+              :rules="[ val => val && val.length > 0 || 'Please type something']"
+              dense
+              v-model="newProject.name"
+              autofocus
+            />
+          </q-card-section>
+
+          <q-card-section class="q-pt-none">
+            <q-select
+              :rules="[ val => val && val.length > 0 || 'Please select something']"
+              dense
+              v-model="newProject.color"
+              :options="colorOptions"
+            />
+          </q-card-section>
+
+          <q-card-actions align="right" class="text-primary">
+            <q-btn flat label="Cancel" v-close-popup />
+            <q-btn type="submit" flat label="Add Project" />
+          </q-card-actions>
+        </q-form>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 
@@ -92,6 +134,22 @@ export default Vue.extend({
   data() {
     return {
       mode: 'stopped',
+      prompt: false,
+      colorOptions: [
+        'red',
+        'maroon',
+        'blue',
+        'lightblue',
+        'green',
+        'lightgreen',
+        'orange',
+        'purple',
+        'yellow',
+      ],
+      newProject: {
+        name: '',
+        color: '',
+      },
       current: {
         _id: '',
         timer: 0,
@@ -170,6 +228,13 @@ export default Vue.extend({
         }
       }
     },
+    addProject() {
+      let newProject = this.newProject;
+      newProject._id = String(Math.random());
+      this.projects.push(newProject);
+      this.newProject = {name: '', color: ''};
+      this.prompt = false;
+    }
   },
   computed: {
     cleanTimer(): string {
