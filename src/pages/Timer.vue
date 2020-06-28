@@ -40,6 +40,7 @@
             v-for="item in history"
             :key="item._id"
             v-bind="item"
+            v-on:delete-click="deleteHistoryItem(item._id)"
           />
         </q-list>
       </div>
@@ -57,6 +58,7 @@
             v-for="item in projects"
             :key="item._id"
             v-bind="item"
+            v-on:delete-click="deleteProjectItem(item._id)"
           />
         </q-list>
       </div>
@@ -153,6 +155,20 @@ export default Vue.extend({
       this.current.start = 0;
       this.current.timer = 0;
       this.current.end = 0;
+    },
+    deleteHistoryItem(id: string): void {
+      for (let i = 0; i < this.history.length; i += 1) {
+        if (this.history[i]._id === id) {
+          this.history.splice(i, 1);
+        }
+      }
+    },
+    deleteProjectItem(id: string): void {
+      for (let i = 0; i < this.projects.length; i += 1) {
+        if (this.projects[i]._id === id) {
+          this.projects.splice(i, 1);
+        }
+      }
     },
   },
   computed: {
