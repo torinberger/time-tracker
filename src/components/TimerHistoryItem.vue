@@ -12,23 +12,25 @@
         {{ cleanedTime }}
       </q-item-label>
       <q-item-label caption>
-        Tets
+        {{ getDate(new Date(start*1000)) }} - {{ getTime(new Date(start*1000)) }}
       </q-item-label>
     </q-item-section>
 
     <q-item-section>
-      <q-btn align="right" round dense flat icon="more_vert">
-        <q-menu>
-          <q-list style="min-width: 100px">
-            <q-item clickable v-close-popup>
-              <q-item-section>Delete</q-item-section>
-            </q-item>
-            <q-item clickable v-close-popup>
-              <q-item-section>Edit</q-item-section>
-            </q-item>
-          </q-list>
-        </q-menu>
-      </q-btn>
+      <q-item-label align="right">
+        <q-btn round dense flat icon="more_vert">
+          <q-menu>
+            <q-list style="min-width: 100px">
+              <q-item clickable v-close-popup>
+                <q-item-section>Delete</q-item-section>
+              </q-item>
+              <q-item clickable v-close-popup>
+                <q-item-section>Edit</q-item-section>
+              </q-item>
+            </q-list>
+          </q-menu>
+        </q-btn>
+      </q-item-label>
     </q-item-section>
   </q-item>
 </template>
@@ -59,6 +61,14 @@ export default Vue.extend({
   computed: {
     cleanedTime() {
       return cleanTime(this.end - this.start);
+    },
+  },
+  methods: {
+    getDate(day: Date): string {
+      return `${day.getFullYear()}/${(day.getMonth() + 1)}/${day.getDate()}`;
+    },
+    getTime(time: Date): string {
+      return `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`;
     },
   },
 });
