@@ -17,7 +17,7 @@
 <script lang="ts">
 import { Vue } from 'vue-property-decorator';
 
-import PieChart from './PieChart';
+import PieChart from './PieChart.js';
 
 export default Vue.extend({
   name: 'StatsGraph',
@@ -26,10 +26,7 @@ export default Vue.extend({
   },
   data() {
     return {
-      chartData: {
-        labels: [],
-        datasets: [],
-      },
+      chartData: {},
     };
   },
   mounted() {
@@ -44,7 +41,7 @@ export default Vue.extend({
         'Red',
         'Yellow',
         'Blue',
-      ]
+      ],
     };
   },
 });

@@ -10,8 +10,6 @@ export default {
   },
   props: ['chartData'], // chart data to display
   mounted() {
-    const { chartData } = this;
-
     // render chart
     this.renderChart(this.chartData, { responsive: true, maintainAspectRatio: false });
   },

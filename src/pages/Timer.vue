@@ -109,6 +109,7 @@
 </template>
 
 <script lang="ts">
+/* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
 import Vue from 'vue';
 import TimerHistoryItem from 'components/TimerHistoryItem.vue';
 import TimerProjectItem from 'components/TimerProjectItem.vue';

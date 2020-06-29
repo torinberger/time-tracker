@@ -19,11 +19,7 @@
 /* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
 import { Vue } from 'vue-property-decorator';
 
-import LineChart from './LineChart';
-
-function round2dp(x) {
-  return Math.round(x * 100) / 100;
-}
+import LineChart from './LineChart.js';
 
 export default Vue.extend({
   name: 'StatsChart',
@@ -33,10 +29,7 @@ export default Vue.extend({
   props: ['stats'],
   data() {
     return {
-      chartData: {
-        labels: [],
-        datasets: [],
-      },
+      chartData: {},
     };
   },
   mounted() {

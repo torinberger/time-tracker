@@ -46,7 +46,7 @@ export default Vue.extend({
     return {
       projects: [
         {
-          _id: "djfkdjfkjdkf2",
+          _id: 'djfkdjfkjdkf2',
           name: 'Chess',
           color: 'red',
         },
