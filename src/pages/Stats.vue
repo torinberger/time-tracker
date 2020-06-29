@@ -9,7 +9,21 @@
     </div>
 
     <div class="stats-projects-container shadow-2">
+      <q-list>
+        <q-item
+          class="text-grey-8"
+        >
+          <q-item-section>
+            Projects
+          </q-item-section>
+        </q-item>
 
+        <stats-project-item
+          v-for="item in projects"
+          :key="item._id"
+          v-bind="item"
+        />
+      </q-list>
     </div>
   </q-page>
 </template>
@@ -19,12 +33,25 @@ import Vue from 'vue';
 
 import StatsGraph from 'components/StatsGraph.vue';
 import StatsPie from 'components/StatsPie.vue';
+import StatsProjectItem from 'components/StatsProjectItem.vue';
 
 export default Vue.extend({
   name: 'Stats',
   components: {
     StatsGraph,
     StatsPie,
+    StatsProjectItem,
+  },
+  data() {
+    return {
+      projects: [
+        {
+          _id: "djfkdjfkjdkf2",
+          name: 'Chess',
+          color: 'red',
+        },
+      ],
+    };
   },
 });
 </script>

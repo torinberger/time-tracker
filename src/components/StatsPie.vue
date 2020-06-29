@@ -36,14 +36,14 @@ export default Vue.extend({
     this.chartData = {
       datasets: [{
         data: [10, 20, 30],
-        backgroundColor: ['red', 'yellow', 'blue']
+        backgroundColor: ['red', 'yellow', 'blue'],
       }],
 
       // These labels appear in the legend and in the tooltips when hovering different arcs
       labels: [
         'Red',
         'Yellow',
-        'Blue'
+        'Blue',
       ]
     };
   },
