@@ -51,6 +51,7 @@ export default Vue.extend({
         .then((res) => {
           console.log(res);
           this.$store.commit('setToken', res.data.token);
+          this.$store.commit('setUsername', this.username);
           this.$router.push({ path: 'timer' });
         })
         .catch((err) => {

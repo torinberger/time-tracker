@@ -14,6 +14,7 @@ export interface StoreInterface {
   // example: ExampleStateInterface;
   // Declared as unknown to avoid linting issue. Best to strongly type as per the line above.
   token: string;
+  username: string;
 }
 
 export default store(({ Vue }) => {
@@ -26,6 +27,9 @@ export default store(({ Vue }) => {
     mutations: {
       setToken(state, newToken) {
         state.token = newToken;
+      },
+      setUsername(state, newUsername) {
+        state.username = newUsername;
       },
     },
 

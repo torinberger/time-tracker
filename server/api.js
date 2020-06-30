@@ -71,4 +71,38 @@ api.route({
   }
 });
 
+api.route({
+  method: 'post',
+  path: '/addtimerhistoryitem',
+  validate: {
+    body: {
+      username: Joi.string().max(20),
+      description: Joi.string().max(20),
+      project: Joi.string().max(20),
+      start: Joi.number(),
+      end: Joi.number(),
+    },
+    type: 'json',
+    output: {
+      201: {
+        body: {
+          timerHistoryItem: Joi.array()
+        }
+      }
+    }
+  },
+  handler: async (ctx) => {
+    console.log('post');
+    console.log(ctx.request.body);
+    const timerHistoryItem = await controller.addTimerHistoryItem(ctx.request.body);
+    if (timerHistoryItem.length != 0) {
+      console.log('timer history item added', timerHistoryItem);
+      ctx.status = 201;
+      ctx.body = { timerHistoryItem };
+    } else {
+      ctx.status = 500;
+    }
+  }
+});
+
 module.exports = api;

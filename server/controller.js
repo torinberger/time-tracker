@@ -5,6 +5,7 @@ const sha256 = require('crypto-js/sha256');
 const addUserQuery = 'INSERT INTO appuser(username, password, signup) VALUES($1, $2, $3) RETURNING *';
 const loginQuery = 'SELECT * FROM appuser WHERE username = $1 AND password = $2';
 const usernameQuery = 'SELECT * FROM appuser WHERE username = $1';
+const addTimerHistoryItemQuery = 'INSERT INTO timerhistoryitem(description, project, starttime, endtime, appuserusername) VALUES($1, $2, $3, $4, $5) RETURNING *';
 
 exports.addUser = function (userDetails) {
   return new Promise(function(resolve, reject) {
@@ -66,3 +67,35 @@ exports.findUsers = function () {
     })
   });
 }
+
+exports.findTimerHistoryItems = function (username) {
+  return new Promise(function(resolve, reject) {
+    database.query('SELECT * FROM timerhistoryitem WHERE appuserusername = $1', [username], (err, res) => {
+      console.log(err ? err.stack : res.rows);
+      if (res) {
+        resolve(res.rows);
+      } else {
+        reject(false);
+      }
+    })
+  });
+}
+
+exports.addTimerHistoryItem = function (timerHistoryItemDetails) {
+  return new Promise(function(resolve, reject) {
+    database.query(addTimerHistoryItemQuery, [
+      timerHistoryItemDetails.description,
+      timerHistoryItemDetails.project,
+      timerHistoryItemDetails.start,
+      timerHistoryItemDetails.end,
+      timerHistoryItemDetails.username,
+    ], (err, res) => {
+      console.log(err ? err.stack : res.rows);
+      if (res) {
+        resolve(res.rows);
+      } else {
+        reject(err);
+      }
+    })
+  });
+};

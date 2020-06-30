@@ -11,7 +11,7 @@
         label="Project"
         type="select"
         v-model="current.project"
-        :options="['chess', 'software']"
+        :options="projectOptions"
       />
 
       <div class="">
@@ -116,6 +116,7 @@
 import Vue from 'vue';
 import TimerHistoryItem from 'components/TimerHistoryItem.vue';
 import TimerProjectItem from 'components/TimerProjectItem.vue';
+import axios from 'axios';
 
 function makeTwoDigit(n: number): string {
   return String(String(n).length < 2 ? `0${n}` : n);
@@ -155,7 +156,6 @@ export default Vue.extend({
         color: '',
       },
       current: {
-        _id: '',
         timer: 0,
         description: '',
         project: '',
@@ -163,31 +163,12 @@ export default Vue.extend({
         end: 0,
       },
       history: [
-        {
-          description: 'Working on game',
-          project: 'Software',
-          start: 34583459000,
-          end: 34583700000,
-          _id: '32495df8dfj498',
-        },
-        {
-          description: 'Bug fixing',
-          project: 'Software',
-          start: 34583459000,
-          end: 34583750000,
-          _id: '32495df8dfk498',
-        },
       ],
       projects: [
         {
-          _id: '3490093490',
-          name: 'Software',
-          color: 'blue',
-        },
-        {
-          _id: '9034903490',
-          name: 'Chess',
-          color: 'red',
+          _id: String(Math.random()),
+          name: 'None',
+          color: 'white',
         },
       ],
     };
@@ -207,10 +188,39 @@ export default Vue.extend({
     pauseTimer() {
       this.mode = this.mode === 'play' ? this.mode = 'stopped' : this.mode = 'play';
       this.current.end = new Date().getTime();
-      this.current._id = String(Math.random());
 
       console.log(JSON.parse(JSON.stringify(this.current)));
-      this.history.push(JSON.parse(JSON.stringify(this.current)));
+
+      axios
+        .post('http://localhost:3000/addtimerhistoryitem', {
+          username: String(this.$store.state.username),
+          description: this.current.description,
+          project: this.current.project,
+          start: this.current.start,
+          end: this.current.end,
+        }, {
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+          },
+        })
+        .then((res) => {
+          console.log(res);
+          const data = res.data.timerHistoryItem[0];
+          data.end = Number(Math.ceil(data.endtime / 1000) * 1000);
+          delete data.endtime;
+          data.start = Number(Math.ceil(data.starttime / 1000) * 1000);
+          delete data.startime;
+          data._id = String(Math.random());
+
+          this.history.push(data);
+        })
+        .catch((err) => {
+          console.log(err);
+          this.$q.notify({
+            color: 'black',
+            message: 'Error logging time!',
+          });
+        });
 
       this.current.description = '';
       this.current.project = '';
@@ -244,6 +254,13 @@ export default Vue.extend({
   computed: {
     cleanTimer(): string {
       return cleanTime(this.current.timer);
+    },
+    projectOptions() {
+      const projects = [];
+      for (let i = 0; i < this.projects.length; i += 1) {
+        projects.push(this.projects[i].name);
+      }
+      return projects;
     },
   },
 });
