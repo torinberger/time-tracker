@@ -190,6 +190,7 @@ export default Vue.extend({
     }, 1000);
 
     this.getTimerHistoryItems();
+    this.getProjects();
   },
   methods: {
     playTimer() {
@@ -252,9 +253,31 @@ export default Vue.extend({
       const { name } = this.newProject;
       const { color } = this.newProject;
       const id = String(Math.random());
-      this.projects.push({ name, color, _id: id });
-      this.newProject = { name: '', color: '' };
-      this.prompt = false;
+      axios
+        .post('http://localhost:3000/addproject', {
+          username: String(this.$store.state.username),
+          name,
+          color,
+        }, {
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+          },
+        })
+        .then((res) => {
+          console.log(res);
+          const data = res.data.project[0];
+
+          this.projects.push(data);
+          this.newProject = { name: '', color: '' };
+          this.prompt = false;
+        })
+        .catch((err) => {
+          console.log(err);
+          this.$q.notify({
+            color: 'black',
+            message: 'Error adding project!',
+          });
+        });
     },
     getTimerHistoryItems() {
       axios
@@ -280,6 +303,32 @@ export default Vue.extend({
           this.$q.notify({
             color: 'black',
             message: 'Error getting timer history!',
+          });
+        });
+    },
+    getProjects() {
+      axios
+        .post('http://localhost:3000/getprojects', {
+          username: String(this.$store.state.username),
+        }, {
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+          },
+        })
+        .then((res) => {
+          console.log(res);
+          res.data.projects.push({
+            name: 'None',
+            color: 'white',
+          });
+
+          this.projects = res.data.projects;
+        })
+        .catch((err) => {
+          console.log(err);
+          this.$q.notify({
+            color: 'black',
+            message: 'Error getting projects!',
           });
         });
     },
