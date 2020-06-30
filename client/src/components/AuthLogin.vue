@@ -25,6 +25,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import axios from 'axios';
 
 export default Vue.extend({
   name: 'AuthLogin',
@@ -37,8 +38,28 @@ export default Vue.extend({
   methods: {
     login() {
       console.log('login');
-      this.$store.commit('setToken', 'blah');
-      this.$router.push({ path: 'timer' });
+
+      axios
+        .post('http://localhost:3000/login', {
+          username: String(this.username),
+          password: String(this.password),
+        }, {
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+          },
+        })
+        .then((res) => {
+          console.log(res);
+          this.$store.commit('setToken', res.data.token);
+          this.$router.push({ path: 'timer' });
+        })
+        .catch((err) => {
+          console.log(err);
+          this.$q.notify({
+            color: 'black',
+            message: 'Incorrect username/password!',
+          });
+        });
     },
   },
 });

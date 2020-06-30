@@ -25,6 +25,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import axios from 'axios';
 
 export default Vue.extend({
   name: 'AuthRegister',
@@ -37,6 +38,31 @@ export default Vue.extend({
   methods: {
     register() {
       console.log('register');
+
+      const signup = new Date();
+
+      axios
+        .post('http://localhost:3000/signup', {
+          username: String(this.username),
+          password: String(this.password),
+          signup,
+        }, {
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+          },
+        })
+        .then((res) => {
+          console.log(res);
+          this.$store.commit('setToken', res.data.token);
+          this.$router.push({ path: 'timer' });
+        })
+        .catch((err) => {
+          console.log(err);
+          this.$q.notify({
+            color: 'black',
+            message: 'Username taken!',
+          });
+        });
     },
   },
 });
