@@ -175,14 +175,58 @@ api.route({
   handler: async (ctx) => {
     console.log('post');
     console.log(ctx.request.body);
-    const project = await controller.addProject(ctx.request.body);
-    if (project.length != 0) {
-      console.log('project added', project);
-      ctx.status = 201;
-      ctx.body = { project };
+    const projectTest = await controller.findProjectByName(ctx.request.body.name);
+    console.log('projectTest', projectTest);
+    if (projectTest.length > 0) {
+      ctx.status = 400;
     } else {
-      ctx.status = 500;
+      const project = await controller.addProject(ctx.request.body);
+      if (project.length != 0) {
+        console.log('project added', project);
+        ctx.status = 201;
+        ctx.body = { project };
+      } else {
+        ctx.status = 500;
+      }
     }
+  }
+});
+
+api.route({
+  method: 'post',
+  path: '/deleteproject',
+  validate: {
+    body: {
+      username: Joi.string().max(20),
+      name: Joi.string().max(20),
+    },
+    type: 'json',
+  },
+  handler: async (ctx) => {
+    console.log('post');
+    console.log(ctx.request.body);
+    const project = await controller.deleteProject(ctx.request.body);
+    ctx.status = 200;
+    ctx.body = 'DELETED';
+  }
+});
+
+api.route({
+  method: 'post',
+  path: '/deletetimerhistoryitem',
+  validate: {
+    body: {
+      username: Joi.string().max(20),
+      start: Joi.number(),
+    },
+    type: 'json',
+  },
+  handler: async (ctx) => {
+    console.log('post');
+    console.log(ctx.request.body);
+    const project = await controller.deleteHistoryItem(ctx.request.body);
+    ctx.status = 200;
+    ctx.body = 'DELETED';
   }
 });
 

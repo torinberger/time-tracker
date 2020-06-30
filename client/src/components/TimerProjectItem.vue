@@ -4,7 +4,7 @@
       <q-item-label :style="{color: color}">{{ name }}</q-item-label>
     </q-item-section>
 
-    <q-item-section>
+    <q-item-section v-if="name !== 'None'">
       <q-item-label align="right">
         <q-btn round dense flat icon="more_vert">
           <q-menu>

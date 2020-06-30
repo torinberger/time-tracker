@@ -66,6 +66,7 @@ export default Vue.extend({
       return `${day.getFullYear()}/${(day.getMonth() + 1)}/${day.getDate()}`;
     },
     getTime(time: Date): string {
+      time = new Date(Math.ceil(new Date(time).getTime() / 1000) * 1000);
       return `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`;
     },
   },

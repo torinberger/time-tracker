@@ -131,9 +131,9 @@ function cleanTime(time: number): string {
 }
 
 function converToHistoryItem(data) {
-  data.end = Number(Math.ceil(data.endtime / 1000) * 1000);
+  data.end = Number(data.endtime);
   delete data.endtime;
-  data.start = Number(Math.ceil(data.starttime / 1000) * 1000);
+  data.start = Number(data.starttime);
   delete data.startime;
   data._id = String(Math.random());
   return data;
@@ -238,14 +238,57 @@ export default Vue.extend({
     deleteHistoryItem(id: string): void {
       for (let i = 0; i < this.history.length; i += 1) {
         if (this.history[i]._id === id) {
-          this.history.splice(i, 1);
+          let target = this.history[i];
+
+          axios
+            .post('http://localhost:3000/deletetimerhistoryitem', {
+              username: String(this.$store.state.username),
+              start: target.start,
+            }, {
+              headers: {
+                'Access-Control-Allow-Origin': '*',
+              },
+            })
+            .then((res) => {
+              console.log(res);
+              this.getTimerHistoryItems();
+            })
+            .catch((err) => {
+              console.log(err);
+              this.$q.notify({
+                color: 'black',
+                message: 'Error deleting project!',
+              });
+            });
         }
       }
     },
     deleteProjectItem(id: string): void {
       for (let i = 0; i < this.projects.length; i += 1) {
         if (this.projects[i]._id === id) {
-          this.projects.splice(i, 1);
+          let target = this.projects[i];
+
+          axios
+            .post('http://localhost:3000/deleteproject', {
+              username: String(this.$store.state.username),
+              name: target.name,
+            }, {
+              headers: {
+                'Access-Control-Allow-Origin': '*',
+              },
+            })
+            .then((res) => {
+              console.log(res);
+              this.getProjects()
+            })
+            .catch((err) => {
+              console.log(err);
+              this.$q.notify({
+                color: 'black',
+                message: 'Error deleting project!',
+              });
+            });
+
         }
       }
     },
@@ -275,7 +318,7 @@ export default Vue.extend({
           console.log(err);
           this.$q.notify({
             color: 'black',
-            message: 'Error adding project!',
+            message: 'Project name taken!',
           });
         });
     },
