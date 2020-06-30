@@ -12,7 +12,7 @@
         {{ cleanedTime }}
       </q-item-label>
       <q-item-label caption>
-        {{ getDate(new Date(start*1000)) }} - {{ getTime(new Date(start*1000)) }}
+        {{ getDate(new Date(start)) }} - {{ getTime(new Date(start)) }}
       </q-item-label>
     </q-item-section>
 
@@ -40,9 +40,10 @@ function makeTwoDigit(n: number): string {
 }
 
 function cleanTime(time: number): string {
-  const hours = Math.floor(Math.floor(time / 60) / 60);
-  const minutes = Math.floor((time / 60) % 60);
-  const seconds = Number(time % 60);
+  const timeInSeconds = time / 1000;
+  const hours = Math.floor(Math.floor(timeInSeconds / 60) / 60);
+  const minutes = Math.floor((timeInSeconds / 60) % 60);
+  const seconds = Number(timeInSeconds % 60);
 
   return `${makeTwoDigit(hours)}:${makeTwoDigit(minutes)}:${makeTwoDigit(seconds)}`;
 }

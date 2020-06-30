@@ -21,6 +21,7 @@
           id="timer-controller-btn"
           :icon="mode === 'play' ? 'stop' : 'play_arrow'"
           @click="mode === 'play' ? pauseTimer() : playTimer()"
+          :disabled="current.project.length == 0 || current.description.length == 0"
           color="primary"
         />
       </div>
@@ -84,6 +85,7 @@
             <q-input
               :rules="[ val => val && val.length > 0 || 'Please type something']"
               dense
+              label="Name"
               v-model="newProject.name"
               autofocus
             />
@@ -93,6 +95,7 @@
             <q-select
               :rules="[ val => val && val.length > 0 || 'Please select something']"
               dense
+              label="Color"
               v-model="newProject.color"
               :options="colorOptions"
             />
@@ -163,15 +166,15 @@ export default Vue.extend({
         {
           description: 'Working on game',
           project: 'Software',
-          start: 34583459,
-          end: 34583700,
+          start: 34583459000,
+          end: 34583700000,
           _id: '32495df8dfj498',
         },
         {
           description: 'Bug fixing',
           project: 'Software',
-          start: 34583459,
-          end: 34583750,
+          start: 34583459000,
+          end: 34583750000,
           _id: '32495df8dfk498',
         },
       ],
@@ -199,11 +202,11 @@ export default Vue.extend({
   methods: {
     playTimer() {
       this.mode = this.mode === 'play' ? this.mode = 'stopped' : this.mode = 'play';
-      this.current.start = Math.ceil(new Date().getTime() / 1000);
+      this.current.start = new Date().getTime();
     },
     pauseTimer() {
       this.mode = this.mode === 'play' ? this.mode = 'stopped' : this.mode = 'play';
-      this.current.end = Math.ceil(new Date().getTime() / 1000);
+      this.current.end = new Date().getTime();
       this.current._id = String(Math.random());
 
       console.log(JSON.parse(JSON.stringify(this.current)));
