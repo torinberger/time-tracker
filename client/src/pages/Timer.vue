@@ -130,6 +130,15 @@ function cleanTime(time: number): string {
   return `${makeTwoDigit(hours)}:${makeTwoDigit(minutes)}:${makeTwoDigit(seconds)}`;
 }
 
+function converToHistoryItem(data) {
+  data.end = Number(Math.ceil(data.endtime / 1000) * 1000);
+  delete data.endtime;
+  data.start = Number(Math.ceil(data.starttime / 1000) * 1000);
+  delete data.startime;
+  data._id = String(Math.random());
+  return data;
+}
+
 export default Vue.extend({
   name: 'Timer',
   components: {
@@ -179,6 +188,8 @@ export default Vue.extend({
         this.current.timer += 1;
       }
     }, 1000);
+
+    this.getTimerHistoryItems();
   },
   methods: {
     playTimer() {
@@ -206,13 +217,8 @@ export default Vue.extend({
         .then((res) => {
           console.log(res);
           const data = res.data.timerHistoryItem[0];
-          data.end = Number(Math.ceil(data.endtime / 1000) * 1000);
-          delete data.endtime;
-          data.start = Number(Math.ceil(data.starttime / 1000) * 1000);
-          delete data.startime;
-          data._id = String(Math.random());
 
-          this.history.push(data);
+          this.history.push(converToHistoryItem(data));
         })
         .catch((err) => {
           console.log(err);
@@ -249,6 +255,33 @@ export default Vue.extend({
       this.projects.push({ name, color, _id: id });
       this.newProject = { name: '', color: '' };
       this.prompt = false;
+    },
+    getTimerHistoryItems() {
+      axios
+        .post('http://localhost:3000/gettimerhistoryitems', {
+          username: String(this.$store.state.username),
+        }, {
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+          },
+        })
+        .then((res) => {
+          console.log(res);
+          const data = res.data.historyItems;
+
+          for (let i = 0; i < data.length; i++) {
+            data[i] = converToHistoryItem(data[i]);
+          }
+
+          this.history = data;
+        })
+        .catch((err) => {
+          console.log(err);
+          this.$q.notify({
+            color: 'black',
+            message: 'Error getting timer history!',
+          });
+        });
     },
   },
   computed: {

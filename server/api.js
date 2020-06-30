@@ -73,6 +73,30 @@ api.route({
 
 api.route({
   method: 'post',
+  path: '/gettimerhistoryitems',
+  validate: {
+    body: {
+      username: Joi.string().max(20),
+    },
+    type: 'json',
+    output: {
+      200: {
+        body: {
+          historyItems: Joi.array(),
+        }
+      }
+    }
+  },
+  handler: async (ctx) => {
+    const historyItems = await controller.findTimerHistoryItems(ctx.request.body.username);
+
+    ctx.status = 200;
+    ctx.body = { historyItems };
+  }
+});
+
+api.route({
+  method: 'post',
   path: '/addtimerhistoryitem',
   validate: {
     body: {
