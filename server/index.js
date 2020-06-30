@@ -11,5 +11,6 @@ public.get('/', async (ctx) => {
 });
 
 const app = new koa();
+app.use(require('./api').middleware());
 app.use(public.middleware());
 app.listen(3000);
