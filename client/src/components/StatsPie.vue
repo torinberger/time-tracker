@@ -46,7 +46,7 @@ export default Vue.extend({
       target.time = 0;
       for (let n = 0; n < this.timerHistoryItems.length; n++) {
         if (this.timerHistoryItems[n].project == target.name) {
-          target.time += this.timerHistoryItems[n].endtime - this.timerHistoryItems[n].starttime;
+          target.time += Math.ceil((this.timerHistoryItems[n].endtime - this.timerHistoryItems[n].starttime) / 1000);
         }
       }
     }

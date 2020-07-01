@@ -5,7 +5,7 @@
     </q-item-section>
 
     <q-item-section>
-      3:34
+      {{ cleanedTime }}
     </q-item-section>
   </q-item>
 </template>
@@ -13,11 +13,30 @@
 <script lang="ts">
 import { Vue } from 'vue-property-decorator';
 
+function makeTwoDigit(n: number): string {
+  return String(String(n).length < 2 ? `0${n}` : n);
+}
+
+function cleanTime(time: number): string {
+  const timeInSeconds = time;
+  const hours = Math.floor(Math.floor(timeInSeconds / 60) / 60);
+  const minutes = Math.floor((timeInSeconds / 60) % 60);
+  const seconds = Number(timeInSeconds % 60);
+
+  return `${makeTwoDigit(hours)}:${makeTwoDigit(minutes)}:${makeTwoDigit(seconds)}`;
+}
+
 export default Vue.extend({
   name: 'StatsProjectItem',
   props: {
     name: { type: String, required: true },
     color: { type: String, default: 'red' },
+    time: { type: Number, default: 0 },
+  },
+  computed: {
+    cleanedTime() {
+      return cleanTime(this.time);
+    },
   },
 });
 </script>

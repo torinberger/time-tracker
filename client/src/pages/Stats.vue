@@ -19,6 +19,7 @@
         </q-item>
 
         <stats-project-item
+          v-if="projects.length"
           v-for="item in projects"
           :key="item._id"
           v-bind="item"
