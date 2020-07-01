@@ -32,7 +32,9 @@ export default Vue.extend({
   ],
   data() {
     return {
-      chartData: {},
+      chartData: {
+        labels: [],
+      },
     };
   },
   mounted() {

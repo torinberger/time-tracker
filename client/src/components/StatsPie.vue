@@ -26,27 +26,54 @@ export default Vue.extend({
   },
   data() {
     return {
-      chartData: {},
+      chartData: {
+        labels: [],
+      },
     };
   },
   props: [
     'projects',
     'timerHistoryItems',
   ],
-  mounted() {
-    this.chartData = {
+  created() {
+    console.log('before history items');
+    console.log(this.timerHistoryItems);
+
+    for (let i = 0; i < this.projects.length; i++) {
+      const target = this.projects[i];
+      console.log('project n',target);
+
+      target.time = 0;
+      for (let n = 0; n < this.timerHistoryItems.length; n++) {
+        if (this.timerHistoryItems[n].project == target.name) {
+          target.time += this.timerHistoryItems[n].endtime - this.timerHistoryItems[n].starttime;
+        }
+      }
+    }
+
+    console.log('after projects');
+    console.log(JSON.parse(JSON.stringify(this.projects)));
+
+    const chartData = {
       datasets: [{
-        data: [10, 20, 30],
-        backgroundColor: ['red', 'yellow', 'blue'],
+        data: [],
+        backgroundColor: [],
       }],
 
       // These labels appear in the legend and in the tooltips when hovering different arcs
-      labels: [
-        'Red',
-        'Yellow',
-        'Blue',
-      ],
+      labels: [],
     };
+
+    for (let i = 0; i < this.projects.length; i++) {
+      chartData.datasets[0].data.push(this.projects[i].time);
+      chartData.datasets[0].backgroundColor.push(this.projects[i].color);
+      chartData.labels.push(this.projects[i].name);
+    }
+
+    console.log(chartData);
+
+
+    this.chartData = chartData;
   },
 });
 </script>

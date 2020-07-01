@@ -1,11 +1,11 @@
 <template lang="html">
   <q-page class="stats">
     <div class="stats-graph-container shadow-2">
-      <stats-graph></stats-graph>
+      <stats-graph v-if="timerHistoryItems.length > 0" :projects="projects" :timerHistoryItems="timerHistoryItems"></stats-graph>
     </div>
 
     <div class="stats-pie-container shadow-2">
-      <stats-pie></stats-pie>
+      <stats-pie v-if="timerHistoryItems.length > 0" :projects="projects" :timerHistoryItems="timerHistoryItems"></stats-pie>
     </div>
 
     <div class="stats-projects-container shadow-2">
@@ -46,24 +46,36 @@ export default Vue.extend({
   },
   data() {
     return {
-      projects: [
-        {
-          name: 'None',
-          color: 'white',
-        },
-      ],
-      timerHistoryItems: [
-        {
-          description: '',
-          project: '',
-          starttime: 0,
-          endtime: 0,
-          appuserusername: 'torin'
-        }
-      ],
+      projects: [],
+      timerHistoryItems: [],
     };
   },
   mounted() {
+    axios
+      .post('http://localhost:3000/getprojects', {
+        username: String(this.$store.state.username),
+      }, {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        const data = res.data.projects;
+        data.push({
+          name: 'None',
+          color: 'white',
+        });
+        this.projects = data;
+      })
+      .catch((err) => {
+        console.log(err);
+        this.$q.notify({
+          color: 'black',
+          message: 'Error getting projects!',
+        });
+      });
+
     axios
       .post('http://localhost:3000/gettimerhistoryitems', {
         username: String(this.$store.state.username),
