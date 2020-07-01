@@ -35,6 +35,8 @@ import StatsGraph from 'components/StatsGraph.vue';
 import StatsPie from 'components/StatsPie.vue';
 import StatsProjectItem from 'components/StatsProjectItem.vue';
 
+import axios from 'axios';
+
 export default Vue.extend({
   name: 'Stats',
   components: {
@@ -46,12 +48,43 @@ export default Vue.extend({
     return {
       projects: [
         {
-          _id: 'djfkdjfkjdkf2',
-          name: 'Chess',
-          color: 'red',
+          name: 'None',
+          color: 'white',
         },
       ],
+      timerHistoryItems: [
+        {
+          description: '',
+          project: '',
+          starttime: 0,
+          endtime: 0,
+          appuserusername: 'torin'
+        }
+      ],
     };
+  },
+  mounted() {
+    axios
+      .post('http://localhost:3000/gettimerhistoryitems', {
+        username: String(this.$store.state.username),
+      }, {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        const data = res.data.historyItems;
+
+        this.timerHistoryItems = data;
+      })
+      .catch((err) => {
+        console.log(err);
+        this.$q.notify({
+          color: 'black',
+          message: 'Error logging time!',
+        });
+      });
   },
 });
 </script>

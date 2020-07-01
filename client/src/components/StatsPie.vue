@@ -29,6 +29,10 @@ export default Vue.extend({
       chartData: {},
     };
   },
+  props: [
+    'projects',
+    'timerHistoryItems',
+  ],
   mounted() {
     this.chartData = {
       datasets: [{

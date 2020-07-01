@@ -26,7 +26,10 @@ export default Vue.extend({
   components: {
     LineChart,
   },
-  props: ['stats'],
+  props: [
+    'projects',
+    'timerHistoryItems',
+  ],
   data() {
     return {
       chartData: {},
