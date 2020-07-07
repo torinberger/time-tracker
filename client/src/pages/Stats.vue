@@ -1,8 +1,5 @@
 <template lang="html">
   <q-page class="stats">
-    <div class="stats-graph-container shadow-2">
-      <stats-graph v-if="timerHistoryItems.length > 0" :projects="projects" :timerHistoryItems="timerHistoryItems"></stats-graph>
-    </div>
 
     <div class="stats-pie-container shadow-2">
       <stats-pie v-if="timerHistoryItems.length > 0" :projects="projects" :timerHistoryItems="timerHistoryItems"></stats-pie>
@@ -32,7 +29,6 @@
 <script lang="ts">
 import Vue from 'vue';
 
-import StatsGraph from 'components/StatsGraph.vue';
 import StatsPie from 'components/StatsPie.vue';
 import StatsProjectItem from 'components/StatsProjectItem.vue';
 
@@ -41,7 +37,6 @@ import axios from 'axios';
 export default Vue.extend({
   name: 'Stats',
   components: {
-    StatsGraph,
     StatsPie,
     StatsProjectItem,
   },
@@ -68,34 +63,43 @@ export default Vue.extend({
           color: 'white',
         });
         this.projects = data;
+
+        axios
+          .post('http://localhost:3000/gettimerhistoryitems', {
+            username: String(this.$store.state.username),
+          }, {
+            headers: {
+              'Access-Control-Allow-Origin': '*',
+            },
+          })
+          .then((res) => {
+            console.log(res);
+            const data = res.data.historyItems;
+
+            this.timerHistoryItems = data;
+
+            for (let i = 0; i < this.projects.length; i++) {
+              this.projects[i].time = 0;
+              for (let n = 0; n < this.timerHistoryItems.length; n++) {
+                if (this.timerHistoryItems[n].project == this.projects[i].name) {
+                  this.projects[i].time += Math.ceil((this.timerHistoryItems[n].endtime - this.timerHistoryItems[n].starttime));
+                }
+              }
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+            this.$q.notify({
+              color: 'black',
+              message: 'Error logging time!',
+            });
+          });
       })
       .catch((err) => {
         console.log(err);
         this.$q.notify({
           color: 'black',
           message: 'Error getting projects!',
-        });
-      });
-
-    axios
-      .post('http://localhost:3000/gettimerhistoryitems', {
-        username: String(this.$store.state.username),
-      }, {
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-        },
-      })
-      .then((res) => {
-        console.log(res);
-        const data = res.data.historyItems;
-
-        this.timerHistoryItems = data;
-      })
-      .catch((err) => {
-        console.log(err);
-        this.$q.notify({
-          color: 'black',
-          message: 'Error logging time!',
         });
       });
   },
@@ -107,26 +111,17 @@ export default Vue.extend({
   display: grid;
   grid-template:
     "a b"
-    "c b";
+    "a b";
   grid-gap: 2vh;
   padding: 2vh;
   overflow-y: hidden;
 }
 
-.stats-graph-container {
+.stats-pie-container {
   display: inline-grid;
   grid-area: a;
   width: calc(calc(calc(100vw - 299px) / 2) - 2vh);
-  height: calc(calc(calc(100vh - 50px) / 2) - 3vh) !important;
-  background: white;
-  border-radius: 2px;
-}
-
-.stats-pie-container {
-  display: inline-grid;
-  grid-area: c;
-  width: calc(calc(calc(100vw - 299px) / 2) - 2vh);
-  height: calc(calc(calc(100vh - 50px) / 2) - 3vh) !important;
+  height: calc(calc(100vh - 50px) - 4vh) !important;
   background: white;
   border-radius: 2px;
 }

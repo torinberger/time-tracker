@@ -67,7 +67,7 @@ export default Vue.extend({
     for (let i = 0; i < this.projects.length; i++) {
       chartData.datasets[0].data.push(this.projects[i].time);
       chartData.datasets[0].backgroundColor.push(this.projects[i].color);
-      chartData.labels.push(this.projects[i].name);
+      chartData.labels.push(this.projects[i].name+" (minutes)");
     }
 
     console.log(chartData);

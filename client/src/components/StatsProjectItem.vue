@@ -18,7 +18,7 @@ function makeTwoDigit(n: number): string {
 }
 
 function cleanTime(time: number): string {
-  const timeInSeconds = time;
+  const timeInSeconds = time / 1000;
   const hours = Math.floor(Math.floor(timeInSeconds / 60) / 60);
   const minutes = Math.floor((timeInSeconds / 60) % 60);
   const seconds = Number(timeInSeconds % 60);
@@ -35,6 +35,8 @@ export default Vue.extend({
   },
   computed: {
     cleanedTime() {
+      console.log('time', this.time);
+
       return cleanTime(this.time);
     },
   },
