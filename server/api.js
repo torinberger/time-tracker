@@ -31,7 +31,6 @@ api.route({
       const user = await controller.addUser(ctx.request.body);
       if (user.length != 0) {
         const token = util.createToken(user[0]);
-        console.log('signup works', token);
         ctx.status = 201;
         ctx.body = { token };
       } else {
@@ -62,7 +61,6 @@ api.route({
     const user = await controller.findUser(ctx.request.body);
     if (user.length != 0) {
       const token = util.createToken(user[0]);
-      console.log('login works', token);
       ctx.status = 200;
       ctx.body = { token };
     } else {
@@ -113,7 +111,6 @@ api.route({
   },
   handler: async (ctx) => {
     const projects = await controller.findProjects(ctx.request.body.username);
-    console.log('projects', projects);
 
     ctx.status = 200;
     ctx.body = { projects };
@@ -141,11 +138,8 @@ api.route({
     }
   },
   handler: async (ctx) => {
-    console.log('post');
-    console.log(ctx.request.body);
     const timerHistoryItem = await controller.addTimerHistoryItem(ctx.request.body);
     if (timerHistoryItem.length != 0) {
-      console.log('timer history item added', timerHistoryItem);
       ctx.status = 201;
       ctx.body = { timerHistoryItem };
     } else {
@@ -173,16 +167,12 @@ api.route({
     }
   },
   handler: async (ctx) => {
-    console.log('post');
-    console.log(ctx.request.body);
     const projectTest = await controller.findProjectByName(ctx.request.body.name);
-    console.log('projectTest', projectTest);
     if (projectTest.length > 0) {
       ctx.status = 400;
     } else {
       const project = await controller.addProject(ctx.request.body);
       if (project.length != 0) {
-        console.log('project added', project);
         ctx.status = 201;
         ctx.body = { project };
       } else {
@@ -203,8 +193,6 @@ api.route({
     type: 'json',
   },
   handler: async (ctx) => {
-    console.log('post');
-    console.log(ctx.request.body);
     const project = await controller.deleteProject(ctx.request.body);
     ctx.status = 200;
     ctx.body = 'DELETED';
@@ -222,8 +210,6 @@ api.route({
     type: 'json',
   },
   handler: async (ctx) => {
-    console.log('post');
-    console.log(ctx.request.body);
     const project = await controller.deleteHistoryItem(ctx.request.body);
     ctx.status = 200;
     ctx.body = 'DELETED';

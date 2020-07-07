@@ -2,8 +2,8 @@
   <q-item
     clickable
     tag="a"
-    :disabled="authNeeded && !$store.state.token"
-    :href="authNeeded && !$store.state.token ? '#' : link"
+    :disabled="authNeeded && !$store.state.username"
+    :href="authNeeded && !$store.state.username ? '#' : link"
     :active="link == currentRoute"
   >
     <q-item-section

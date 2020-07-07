@@ -20,7 +20,6 @@ exports.addUser = function (userDetails) {
       userDetails.password,
       userDetails.signup,
     ], (err, res) => {
-      console.log(err ? err.stack : res.rows);
       if (res) {
         resolve(res.rows);
       } else {
@@ -36,7 +35,6 @@ exports.findUser = function (userDetails) {
       userDetails.username,
       userDetails.password
     ], (err, res) => {
-      console.log(err ? err.stack : res.rows);
       if (res) {
         resolve(res.rows);
       } else {
@@ -51,7 +49,6 @@ exports.findUserByUsername = function (username) {
     database.query(usernameQuery, [
       username,
     ], (err, res) => {
-      console.log(err ? err.stack : res.rows);
       if (res) {
         resolve(res.rows);
       } else {
@@ -66,7 +63,6 @@ exports.findProjectByName = function (name) {
     database.query(projectQuery, [
       name,
     ], (err, res) => {
-      console.log(err ? err.stack : res.rows);
       if (res) {
         resolve(res.rows);
       } else {
@@ -79,7 +75,6 @@ exports.findProjectByName = function (name) {
 exports.findUsers = function () {
   return new Promise(function(resolve, reject) {
     database.query('SELECT * FROM appuser', (err, res) => {
-      console.log(err ? err.stack : res.rows);
       if (res) {
         resolve(res.rows);
       } else {
@@ -92,7 +87,6 @@ exports.findUsers = function () {
 exports.findTimerHistoryItems = function (username) {
   return new Promise(function(resolve, reject) {
     database.query('SELECT * FROM timerhistoryitem WHERE appuserusername = $1', [username], (err, res) => {
-      console.log(err ? err.stack : res.rows);
       if (res) {
         resolve(res.rows);
       } else {
@@ -105,7 +99,6 @@ exports.findTimerHistoryItems = function (username) {
 exports.findProjects = function (username) {
   return new Promise(function(resolve, reject) {
     database.query('SELECT * FROM project WHERE appuserusername = $1', [username], (err, res) => {
-      console.log(err ? err.stack : res.rows);
       if (res) {
         resolve(res.rows);
       } else {
@@ -124,7 +117,6 @@ exports.addTimerHistoryItem = function (timerHistoryItemDetails) {
       timerHistoryItemDetails.end,
       timerHistoryItemDetails.username,
     ], (err, res) => {
-      console.log(err ? err.stack : res.rows);
       if (res) {
         resolve(res.rows);
       } else {
@@ -141,7 +133,6 @@ exports.addProject = function (projectDetails) {
       projectDetails.color,
       projectDetails.username,
     ], (err, res) => {
-      console.log(err ? err.stack : res.rows);
       if (res) {
         resolve(res.rows);
       } else {
@@ -157,7 +148,6 @@ exports.deleteProject = function (projectDetails) {
       projectDetails.username,
       projectDetails.name,
     ], (err, res) => {
-      console.log(err ? err.stack : res.rows);
       if (res) {
         resolve(res.rows);
       } else {
@@ -173,7 +163,6 @@ exports.deleteHistoryItem = function (projectDetails) {
       projectDetails.username,
       projectDetails.start,
     ], (err, res) => {
-      console.log(err ? err.stack : res.rows);
       if (res) {
         resolve(res.rows);
       } else {

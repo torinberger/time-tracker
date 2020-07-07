@@ -36,23 +36,18 @@ export default Vue.extend({
     'timerHistoryItems',
   ],
   created() {
-    console.log('before history items');
-    console.log(this.timerHistoryItems);
-
-    for (let i = 0; i < this.projects.length; i++) {
+    for (let i = 0; i < this.projects.length; i += 1) {
       const target = this.projects[i];
-      console.log('project n',target);
 
       target.time = 0;
-      for (let n = 0; n < this.timerHistoryItems.length; n++) {
-        if (this.timerHistoryItems[n].project == target.name) {
-          target.time += Math.ceil((this.timerHistoryItems[n].endtime - this.timerHistoryItems[n].starttime) / 1000);
+      for (let n = 0; n < this.timerHistoryItems.length; n += 1) {
+        if (this.timerHistoryItems[n].project === target.name) {
+          target.time += Math.ceil(
+            (this.timerHistoryItems[n].endtime - this.timerHistoryItems[n].starttime) / 1000,
+          );
         }
       }
     }
-
-    console.log('after projects');
-    console.log(JSON.parse(JSON.stringify(this.projects)));
 
     const chartData = {
       datasets: [{
@@ -64,14 +59,11 @@ export default Vue.extend({
       labels: [],
     };
 
-    for (let i = 0; i < this.projects.length; i++) {
+    for (let i = 0; i < this.projects.length; i += 1) {
       chartData.datasets[0].data.push(this.projects[i].time);
       chartData.datasets[0].backgroundColor.push(this.projects[i].color);
-      chartData.labels.push(this.projects[i].name+" (minutes)");
+      chartData.labels.push(`${this.projects[i].name} (minutes)`);
     }
-
-    console.log(chartData);
-
 
     this.chartData = chartData;
   },

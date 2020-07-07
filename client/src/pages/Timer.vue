@@ -183,14 +183,18 @@ export default Vue.extend({
     };
   },
   created() {
-    setInterval(() => {
-      if (this.mode === 'play') {
-        this.current.timer += 1;
-      }
-    }, 1000);
+    if (!this.$store.state.username) {
+      this.$router.push({ path: 'auth' });
+    } else {
+      setInterval(() => {
+        if (this.mode === 'play') {
+          this.current.timer += 1;
+        }
+      }, 1000);
 
-    this.getTimerHistoryItems();
-    this.getProjects();
+      this.getTimerHistoryItems();
+      this.getProjects();
+    }
   },
   methods: {
     playTimer() {
@@ -200,8 +204,6 @@ export default Vue.extend({
     pauseTimer() {
       this.mode = this.mode === 'play' ? this.mode = 'stopped' : this.mode = 'play';
       this.current.end = new Date().getTime();
-
-      console.log(JSON.parse(JSON.stringify(this.current)));
 
       axios
         .post('http://localhost:3000/addtimerhistoryitem', {
@@ -216,13 +218,11 @@ export default Vue.extend({
           },
         })
         .then((res) => {
-          console.log(res);
           const data = res.data.timerHistoryItem[0];
 
           this.history.push(converToHistoryItem(data));
         })
-        .catch((err) => {
-          console.log(err);
+        .catch(() => {
           this.$q.notify({
             color: 'black',
             message: 'Error logging time!',
@@ -238,7 +238,7 @@ export default Vue.extend({
     deleteHistoryItem(id: string): void {
       for (let i = 0; i < this.history.length; i += 1) {
         if (this.history[i]._id === id) {
-          let target = this.history[i];
+          const target = this.history[i];
 
           axios
             .post('http://localhost:3000/deletetimerhistoryitem', {
@@ -249,12 +249,10 @@ export default Vue.extend({
                 'Access-Control-Allow-Origin': '*',
               },
             })
-            .then((res) => {
-              console.log(res);
+            .then(() => {
               this.getTimerHistoryItems();
             })
-            .catch((err) => {
-              console.log(err);
+            .catch(() => {
               this.$q.notify({
                 color: 'black',
                 message: 'Error deleting project!',
@@ -266,7 +264,13 @@ export default Vue.extend({
     deleteProjectItem(id: string): void {
       for (let i = 0; i < this.projects.length; i += 1) {
         if (this.projects[i]._id === id) {
-          let target = this.projects[i];
+          const target = this.projects[i];
+
+          for (let n = 0; n < this.history.length; n += 1) {
+            if (this.history[n].project === target.name) {
+              this.deleteHistoryItem(this.history[n]._id)
+            }
+          }
 
           axios
             .post('http://localhost:3000/deleteproject', {
@@ -277,25 +281,23 @@ export default Vue.extend({
                 'Access-Control-Allow-Origin': '*',
               },
             })
-            .then((res) => {
-              console.log(res);
-              this.getProjects()
+            .then(() => {
+              this.getTimerHistoryItems();
+              this.getProjects();
             })
-            .catch((err) => {
-              console.log(err);
+            .catch(() => {
               this.$q.notify({
                 color: 'black',
                 message: 'Error deleting project!',
               });
             });
-
         }
       }
     },
     addProject() {
       const { name } = this.newProject;
       const { color } = this.newProject;
-      const id = String(Math.random());
+
       axios
         .post('http://localhost:3000/addproject', {
           username: String(this.$store.state.username),
@@ -307,15 +309,13 @@ export default Vue.extend({
           },
         })
         .then((res) => {
-          console.log(res);
           const data = res.data.project[0];
 
           this.projects.push(data);
           this.newProject = { name: '', color: '' };
           this.prompt = false;
         })
-        .catch((err) => {
-          console.log(err);
+        .catch(() => {
           this.$q.notify({
             color: 'black',
             message: 'Project name taken!',
@@ -332,17 +332,15 @@ export default Vue.extend({
           },
         })
         .then((res) => {
-          console.log(res);
           const data = res.data.historyItems;
 
-          for (let i = 0; i < data.length; i++) {
+          for (let i = 0; i < data.length; i += 1) {
             data[i] = converToHistoryItem(data[i]);
           }
 
           this.history = data;
         })
-        .catch((err) => {
-          console.log(err);
+        .catch(() => {
           this.$q.notify({
             color: 'black',
             message: 'Error getting timer history!',
@@ -359,16 +357,19 @@ export default Vue.extend({
           },
         })
         .then((res) => {
-          console.log(res);
           res.data.projects.push({
             name: 'None',
             color: 'white',
           });
 
+          for (let i = 0; i < res.data.projects.length; i++) {
+            res.data.projects[i];
+            res.data.projects[i]._id = String(Math.random());
+          }
+
           this.projects = res.data.projects;
         })
-        .catch((err) => {
-          console.log(err);
+        .catch(() => {
           this.$q.notify({
             color: 'black',
             message: 'Error getting projects!',

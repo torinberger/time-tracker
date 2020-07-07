@@ -13,7 +13,6 @@ export interface StoreInterface {
   // Define your own store structure, using submodules if needed
   // example: ExampleStateInterface;
   // Declared as unknown to avoid linting issue. Best to strongly type as per the line above.
-  token: string;
   username: string;
 }
 
@@ -25,9 +24,6 @@ export default store(({ Vue }) => {
       // example
     },
     mutations: {
-      setToken(state, newToken) {
-        state.token = newToken;
-      },
       setUsername(state, newUsername) {
         state.username = newUsername;
       },

@@ -35,8 +35,6 @@ export default Vue.extend({
   },
   computed: {
     cleanedTime() {
-      console.log('time', this.time);
-
       return cleanTime(this.time);
     },
   },

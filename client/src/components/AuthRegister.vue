@@ -37,8 +37,6 @@ export default Vue.extend({
   },
   methods: {
     register() {
-      console.log('register');
-
       const signup = new Date();
 
       axios
@@ -51,14 +49,11 @@ export default Vue.extend({
             'Access-Control-Allow-Origin': '*',
           },
         })
-        .then((res) => {
-          console.log(res);
-          this.$store.commit('setToken', res.data.token);
+        .then(() => {
           this.$store.commit('setUsername', this.username);
           this.$router.push({ path: 'timer' });
         })
-        .catch((err) => {
-          console.log(err);
+        .catch(() => {
           this.$q.notify({
             color: 'black',
             message: 'Username taken!',

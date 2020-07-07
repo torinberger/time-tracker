@@ -37,8 +37,6 @@ export default Vue.extend({
   },
   methods: {
     login() {
-      console.log('login');
-
       axios
         .post('http://localhost:3000/login', {
           username: String(this.username),
@@ -48,14 +46,11 @@ export default Vue.extend({
             'Access-Control-Allow-Origin': '*',
           },
         })
-        .then((res) => {
-          console.log(res);
-          this.$store.commit('setToken', res.data.token);
+        .then(() => {
           this.$store.commit('setUsername', this.username);
           this.$router.push({ path: 'timer' });
         })
-        .catch((err) => {
-          console.log(err);
+        .catch(() => {
           this.$q.notify({
             color: 'black',
             message: 'Incorrect username/password!',

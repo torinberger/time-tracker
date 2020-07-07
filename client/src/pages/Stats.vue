@@ -2,10 +2,17 @@
   <q-page class="stats">
 
     <div class="stats-pie-container shadow-2">
-      <stats-pie v-if="timerHistoryItems.length > 0" :projects="projects" :timerHistoryItems="timerHistoryItems"></stats-pie>
+      <stats-pie
+        v-if="timerHistoryItems.length > 0"
+        :projects="projects"
+        :timerHistoryItems="timerHistoryItems"
+      ></stats-pie>
     </div>
 
-    <div class="stats-projects-container shadow-2">
+    <div
+      v-if="projects.length"
+      class="stats-projects-container shadow-2"
+    >
       <q-list>
         <q-item
           class="text-grey-8"
@@ -16,7 +23,6 @@
         </q-item>
 
         <stats-project-item
-          v-if="projects.length"
           v-for="item in projects"
           :key="item._id"
           v-bind="item"
@@ -47,61 +53,63 @@ export default Vue.extend({
     };
   },
   mounted() {
-    axios
-      .post('http://localhost:3000/getprojects', {
-        username: String(this.$store.state.username),
-      }, {
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-        },
-      })
-      .then((res) => {
-        console.log(res);
-        const data = res.data.projects;
-        data.push({
-          name: 'None',
-          color: 'white',
-        });
-        this.projects = data;
+    if (!this.$store.state.username) {
+      this.$router.push({ path: 'auth' });
+    } else {
+      axios
+        .post('http://localhost:3000/getprojects', {
+          username: String(this.$store.state.username),
+        }, {
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+          },
+        })
+        .then((res) => {
+          const { projects } = res.data;
+          projects.push({
+            name: 'None',
+            color: 'white',
+          });
+          this.projects = projects;
 
-        axios
-          .post('http://localhost:3000/gettimerhistoryitems', {
-            username: String(this.$store.state.username),
-          }, {
-            headers: {
-              'Access-Control-Allow-Origin': '*',
-            },
-          })
-          .then((res) => {
-            console.log(res);
-            const data = res.data.historyItems;
+          axios
+            .post('http://localhost:3000/gettimerhistoryitems', {
+              username: String(this.$store.state.username),
+            }, {
+              headers: {
+                'Access-Control-Allow-Origin': '*',
+              },
+            })
+            .then((items) => {
+              const { historyItems } = items.data;
 
-            this.timerHistoryItems = data;
+              this.timerHistoryItems = historyItems;
 
-            for (let i = 0; i < this.projects.length; i++) {
-              this.projects[i].time = 0;
-              for (let n = 0; n < this.timerHistoryItems.length; n++) {
-                if (this.timerHistoryItems[n].project == this.projects[i].name) {
-                  this.projects[i].time += Math.ceil((this.timerHistoryItems[n].endtime - this.timerHistoryItems[n].starttime));
+              for (let i = 0; i < this.projects.length; i += 1) {
+                this.projects[i].time = 0;
+                for (let n = 0; n < this.timerHistoryItems.length; n += 1) {
+                  if (this.timerHistoryItems[n].project === this.projects[i].name) {
+                    this.projects[i].time += Math.ceil(
+                      (this.timerHistoryItems[n].endtime - this.timerHistoryItems[n].starttime),
+                    );
+                  }
                 }
               }
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-            this.$q.notify({
-              color: 'black',
-              message: 'Error logging time!',
+            })
+            .catch(() => {
+              this.$q.notify({
+                color: 'black',
+                message: 'Error logging time!',
+              });
             });
+        })
+        .catch(() => {
+          this.$q.notify({
+            color: 'black',
+            message: 'Error getting projects!',
           });
-      })
-      .catch((err) => {
-        console.log(err);
-        this.$q.notify({
-          color: 'black',
-          message: 'Error getting projects!',
         });
-      });
+    }
   },
 });
 </script>
